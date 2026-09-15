@@ -1,0 +1,19 @@
+{
+  "name": "vayu-gallery",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "vars": {"PUBLIC_ORIGIN": "", "API_ORIGIN": "", "STORAGE_ORIGIN": ""},
+  "build": {"command": "node prepare.mjs --check"},
+  "observability": {"enabled": true, "head_sampling_rate": 1, "logs": {"enabled": true, "invocation_logs": false}}
+}

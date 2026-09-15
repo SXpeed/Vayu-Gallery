@@ -1,0 +1,40 @@
+{
+  "name": "@vayu/platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "dev": "tsx watch src/runtime/node.ts",
+    "build": "tsc --noEmit -p tsconfig.json && node scripts/build.mjs",
+    "start": "node dist/api.js",
+    "start:worker": "node dist/jobs.js",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test --test-concurrency=1 tests/*.test.ts",
+    "migrate": "tsx scripts/migrate.ts",
+    "worker": "tsx src/runtime/jobs.ts",
+    "bootstrap:provider": "tsx scripts/bootstrap-provider.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0",
+    "@hono/node-server": "^1.0.0",
+    "@napi-rs/canvas": "^1.0.9",
+    "esbuild": "^0.28.2",
+    "hono": "^4.0.0",
+    "jspdf": "^4.2.1",
+    "openid-client": "^6.0.0",
+    "pg": "^8.16.3",
+    "sharp": "^0.35.4",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

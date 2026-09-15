@@ -1,0 +1,32 @@
+{
+  "name": "vayu-gallery",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/run.mjs",
+    "build": "npm --prefix production run build",
+    "dev:platform": "node scripts/run.mjs --platform",
+    "build:platform": "node scripts/run.mjs --platform --build",
+    "test": "node --test tests/*.test.mjs",
+    "build:preview": "node scripts/run.mjs --build",
+    "dev:preview": "node scripts/run.mjs",
+    "check:production": "npm --prefix production run check",
+    "test:production": "npm --prefix production test",
+    "test:hosting": "node --test deploy/cloudflare/*.test.mjs",
+    "prepare:cloudflare": "node deploy/cloudflare/prepare.mjs --build",
+    "check:cloudflare": "node deploy/cloudflare/prepare.mjs --check"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "lucide-react": "^1.21.0",
+    "jspdf": "^4.2.1"
+  },
+  "devDependencies": {
+    "vite": "^8.1.0",
+    "@vitejs/plugin-react": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22.16.0"
+  }
+}

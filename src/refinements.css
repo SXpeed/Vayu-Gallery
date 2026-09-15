@@ -1,0 +1,174 @@
+/* Anchor the caption to the banner, independently of the scaled artwork. */
+.overview-hero > .hero-caption {
+  bottom: 14px;
+  right: 34px;
+  max-width: calc(100% - 68px);
+  text-align: right;
+}
+
+.catalog-missing-selection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.catalog-missing-selection p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.record-mobile-list {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .table-wrap.records-table {
+    display: none;
+  }
+
+  .record-mobile-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .record-mobile-card {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 17px 15px 13px;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--surface);
+    transition: border-color .16s ease, background .16s ease;
+  }
+
+  .record-mobile-card:hover {
+    border-color: #b4c0a8;
+    background: #fafbf5;
+  }
+
+  .record-mobile-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .record-mobile-heading > .avatar,
+  .record-mobile-heading > .record-symbol {
+    flex-shrink: 0;
+    width: 33px;
+    height: 33px;
+  }
+
+  .record-mobile-title {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .record-mobile-title > strong,
+  .record-mobile-title > small {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+
+  .record-mobile-title > strong {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .record-mobile-title > small {
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .record-mobile-heading > .badge {
+    flex-shrink: 0;
+    max-width: 90px;
+    font-size: 8px;
+    margin-top: 2px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .record-mobile-details {
+    display: grid;
+    gap: 8px;
+    margin-top: 13px;
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .record-mobile-details:empty {
+    display: none;
+  }
+
+  .record-mobile-details > span,
+  .record-mobile-footer > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .record-mobile-details svg,
+  .record-mobile-footer svg {
+    flex-shrink: 0;
+  }
+
+  .record-mobile-details .avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 7px;
+    flex-shrink: 0;
+  }
+
+  .record-mobile-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 13px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 9px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .record-mobile-footer > span {
+    flex: 1;
+  }
+
+  .record-mobile-footer > strong {
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 850px) {
+  /* Off-screen navigation must also leave keyboard and accessibility navigation. */
+  .app-shell > .sidebar {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .app-shell > .sidebar.open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+}

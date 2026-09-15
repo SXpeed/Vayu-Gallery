@@ -1,0 +1,11 @@
+{
+  "name": "vayu-gallery-hosting-preparation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node prepare.mjs --build",
+    "check": "node prepare.mjs --check",
+    "test": "node --test *.test.mjs",
+    "configure": "node prepare.mjs --configure"
+  }
+}
