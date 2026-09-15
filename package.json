@@ -14,17 +14,22 @@
     "test:production": "npm --prefix production test",
     "test:hosting": "node --test deploy/cloudflare/*.test.mjs",
     "prepare:cloudflare": "node deploy/cloudflare/prepare.mjs --build",
-    "check:cloudflare": "node deploy/cloudflare/prepare.mjs --check"
+    "check:cloudflare": "node deploy/cloudflare/prepare.mjs --check",
+    "prebuild": "npm ci --prefix production --include=dev --ignore-scripts --no-audit --no-fund",
+    "build:cloudflare": "npm run build && npm run prepare:cloudflare",
+    "configure:cloudflare:ci": "node deploy/cloudflare/github-config.mjs",
+    "deploy:cloudflare:ci": "npm run configure:cloudflare:ci && npm run check:cloudflare && wrangler deploy --config deploy/cloudflare/wrangler.jsonc"
   },
   "dependencies": {
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.21.0",
-    "jspdf": "^4.2.1"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
     "vite": "^8.1.0",
-    "@vitejs/plugin-react": "^6.0.3"
+    "wrangler": "4.131.2"
   },
   "engines": {
     "node": ">=22.16.0"

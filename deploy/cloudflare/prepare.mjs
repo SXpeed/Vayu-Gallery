@@ -41,7 +41,7 @@ export function deploymentAccount(value, environmentValue) {
   if(environmentValue && (typeof environmentValue!=='string'||environmentValue.toLowerCase()!==value.toLowerCase()))throw new Error('The shell Cloudflare account differs from this project. Select the intended new account before deployment.');
   return value.toLowerCase();
 }
-async function configure(args){
+export async function configure(args){
   const value=name=>{const index=args.indexOf(name);return index>=0?args[index+1]:undefined;};
   const vars=publicConfig({PUBLIC_ORIGIN:value('--public-origin'),API_ORIGIN:value('--api-origin'),STORAGE_ORIGIN:value('--storage-origin')});
   const template=JSON.parse(await readFile(join(here,'wrangler.example.jsonc'),'utf8'));

@@ -38,5 +38,5 @@ Use only the intended new Cloudflare account. The Worker/project slug is **vayu-
 
 Run `npm run prepare:cloudflare` to create the production asset package locally. Configure your own public application origin, protected Node API origin and signed-storage origin using that guide. Live Wrangler config, account secrets and generated assets are excluded from Git. The checked-in Wrangler example contains no account ID or live domain.
 
-This repository does not automatically deploy. The API and image/PDF job processes need Node hosting; uploading the frontend alone is not a complete hosted app. Remaining public SaaS launch requirements, including payment/subscription integrations and live-service checks, are documented in the production README.
+The GitHub deployment instructions use Cloudflare Workers Builds; the build installs both dependency sets and deploys only after the new account and backend origins are configured. The API and image/PDF job processes need Node hosting; uploading the frontend alone is not a complete hosted app. Remaining public SaaS launch requirements, including payment/subscription integrations and live-service checks, are documented in the production README.
 

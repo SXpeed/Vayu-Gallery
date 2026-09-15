@@ -29,7 +29,7 @@ The implementation establishes the requested schema, tenancy, identity, storage,
 Use Node 22.16 or later, PostgreSQL 17/18, a private R2/S3 bucket and an OIDC provider. Use a separate disposable PostgreSQL database for integration/staging validation. Neither the existing project's environment files nor its deployment configurations are loaded.
 
 ```powershell
-cd D:\Webapp\Vayu-webapp\vayu-redesign\production
+cd D:\Webapp\Vayu-Gallery\production
 npm ci --ignore-scripts
 npm run check
 npm test
@@ -42,7 +42,7 @@ Run `npm run migrate` **only against a newly selected database** using `MIGRATIO
 
 Then use `npm start` for the API and compiled production workspace (default port 4180), and `npm run start:worker` for the job runner. Open `APP_ORIGIN` to sign in. The public website path is `/site/<gallery-slug>/<page-slug>`. The build serves only its compiled entry, assets and fonts; unknown API routes do not fall back to HTML or source files.
 
-For frontend development, run `npm run dev:platform` from the parent redesign folder. This loopback Vite server uses port 4182 and proxies only `/api` and `/auth` to the production API at 4180. Set `APP_ORIGIN=http://127.0.0.1:4182` and register that exact callback when using this arrangement. The normal `npm run dev` remains the separate preview on 4178. The two clients never share a data adapter.
+For frontend development, run `npm run dev:platform` from the Vayu-Gallery root folder. This loopback Vite server uses port 4182 and proxies only `/api` and `/auth` to the production API at 4180. Set `APP_ORIGIN=http://127.0.0.1:4182` and register that exact callback when using this arrangement. The normal `npm run dev` remains the separate preview on 4178. The two clients never share a data adapter.
 
 Register the exact OIDC callback `<APP_ORIGIN>/auth/callback`. Configure the provider's MFA policy and set `OIDC_MFA_ACR` to the exact assurance values it emits after MFA. The first provider owner must already have a verified identity, then be assigned with the offline `bootstrap:provider` command. There is no HTTP self-promotion endpoint.
 

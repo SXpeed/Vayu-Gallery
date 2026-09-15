@@ -1,6 +1,6 @@
 # Vayu-Gallery hosting preparation
 
-This folder prepares **Vayu-Gallery** (`vayu-gallery`) for a deployment that you perform yourself. It does not deploy, log in, create resources, modify DNS, or use the original project's Cloudflare/GitHub access. The example has no account ID, credentials, domain or live resource identifiers.
+This folder prepares **Vayu-Gallery** (`vayu-gallery`) for deployment from the connected **SXpeed/Vayu-Gallery** GitHub repository. Preparation commands do not deploy, log in, create resources or modify DNS; deployment runs in Cloudflare Workers Builds. The example has no account ID, credentials, domain or live resource identifiers.
 
 The production platform still has launch requirements in [production/README.md](../../production/README.md). A successful build is not proof that the whole SaaS is ready to accept paying galleries. In particular, checkout/webhook reconciliation, remaining production module parity, live service integration, concurrency/load tests and backup restoration must be completed before a public paid launch.
 
@@ -23,6 +23,33 @@ The API and job runner are two processes of the same modular application. Host t
 Use Cloudflare DNS, SSL, CDN and WAF for the application domain. The Worker serves only the production frontend and forwards authenticated requests without caching their responses. It preserves the OIDC redirects, session/CSRF cookies, tenant path, provider context and edit-version headers. It does not make authorization decisions on behalf of the API. The existing PostgreSQL row policies and session checks remain authoritative.
 
 The local SQLite preview (`localhost:4178`, `server/`, root `dist/`) is excluded. Never upload the repository or either server directory as public assets. The packaging command only includes the production entry, compiled JS/CSS and fonts.
+
+## Deploy from GitHub
+
+Use **Workers Builds**, connected to the private `SXpeed/Vayu-Gallery` repository. The Cloudflare GitHub App must have access to this selected repository. Keep the original app's connection unchanged.
+
+In the Vayu-Gallery Worker's **Settings > Builds**, set:
+
+| Setting | Value |
+| --- | --- |
+| Root directory | `/` |
+| Production branch | `main` |
+| Build command | `npm run build:cloudflare` |
+| Deploy command | `npm run deploy:cloudflare:ci` |
+| Builds for non-production branches | Off until separate staging services are configured |
+
+Cloudflare installs the root package. The root `prebuild` explicitly runs `npm ci --prefix production --include=dev --ignore-scripts` using the production lockfile, so TypeScript and the API dependencies are installed even when the builder has `NODE_ENV=production`. The build must also include root development dependencies (Vite and Wrangler); leave dependency omission unset or set `NPM_CONFIG_INCLUDE=dev` in Build variables. TypeScript is a local build dependency; no global installation is required.
+
+Add these non-secret **Build variables**, using the newly selected account and actual provisioned services:
+
+- `VAYU_CLOUDFLARE_ACCOUNT_ID`: the new account's 32-character Account ID.
+- `VAYU_PUBLIC_ORIGIN`: the public application HTTPS origin on your own domain.
+- `VAYU_API_ORIGIN`: the separate, protected Node API HTTPS origin.
+- `VAYU_STORAGE_ORIGIN`: the actual HTTPS origin used by signed R2 URLs.
+
+The CI configuration command validates the GitHub main-branch build, account and origins, then generates the ignored `deploy/cloudflare/wrangler.jsonc`. The deploy command checks the asset manifest and explicitly selects that configuration. It stops with a named missing-variable error before invoking Wrangler if the services are not configured. Build variables are separate from Worker runtime secrets. Store `ORIGIN_ACCESS_CLIENT_ID` and `ORIGIN_ACCESS_CLIENT_SECRET` under **Runtime variables and secrets** as secrets; they never belong in GitHub source or frontend assets.
+
+Push a commit to `main` after setup. Cloudflare clones that GitHub commit, builds it, and deploys using its existing build token. Do not run a local upload command. The current entry requires the PostgreSQL, OIDC, Node API/jobs and private R2 services described below; a successful frontend build does not provision them.
 
 ## Configure your services
 
@@ -68,7 +95,7 @@ Do not put either in `vars` or in the frontend. The Worker fails closed when any
 
 ## Your deployment and release checks
 
-You control Cloudflare authentication and deployment. Use the generated config in **this directory**, not the original project's Wrangler configuration. No GitHub connection is required. The `build.command` in that config runs the local preflight check and refuses missing or altered asset files. Before using the CLI, install a current supported Wrangler version in your own tooling environment and validate the config/types with that version; these local Node tests do not exercise the actual workerd runtime.
+Deployment is controlled by the connected GitHub main branch and the selected Cloudflare account. Use the generated config in **this directory**; the original project's Wrangler configuration is unrelated. The `build.command` in that config runs the local preflight check and refuses missing or altered asset files. Before using the CLI, install a current supported Wrangler version in your own tooling environment and validate the config/types with that version; these local Node tests do not exercise the actual workerd runtime.
 
 After you deploy a staging configuration, verify:
 
